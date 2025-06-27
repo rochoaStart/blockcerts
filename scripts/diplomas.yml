@@ -1,0 +1,20 @@
+name: Emitir diplomas
+on:
+  push:
+    paths: ["uploads/**/*.csv"]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      ETH_PRIVATE_KEY: ${{ secrets.ETH_PRIVATE_KEY }}
+      ISSUER_RSA:      ${{ secrets.ISSUER_RSA }}
+      PINATA_JWT:      ${{ secrets.PINATA_JWT }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: file
+        run: echo "CSV_PATH=$(git diff --name-only ${{ github.event.before }} $GITHUB_SHA | grep uploads/ | head -1)" >> $GITHUB_OUTPUT
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install pandas cert-tools cert-issuer requests
+      - run: CSV_PATH=${{ steps.file.outputs.CSV_PATH }} python scripts/emitir.py
