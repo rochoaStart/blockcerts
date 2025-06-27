@@ -1,0 +1,7 @@
+{
+  "@context": ["https://www.w3.org/ns/credentials/v2","https://w3id.org/blockcerts/v3"],
+  "type": ["VerifiableCredential","BlockcertsCredential"],
+  "issuer": "https://raw.githubusercontent.com/rochoaStart/blockcerts/main/issuer.json",
+  "name": "Diploma Inteligencia Artificial",
+  "credentialSubject": { "name": "{{recipient_name}}" }
+}
